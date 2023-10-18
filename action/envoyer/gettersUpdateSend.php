@@ -1,0 +1,34 @@
+<?php
+
+try {
+    $bdd = new PDO('mysql:host=localhost;dbname=data_base;charset=utf8', 'root','');
+} catch (Exception $e) {
+    die('404 not found!'.$e->getMessage());
+}//connection.php
+#require "action/connection.php";
+if (isset($_GET['id']) && !empty($_GET['id'])) {
+$var = $_GET['id'];    
+$getifexist = $bdd->prepare('SELECT * FROM envoyer where idenvoi = ?');
+$getifexist->execute(array($var));
+$ERROR='';
+        if ($getifexist->rowCount()>0) {
+            $infoSend = $getifexist->fetch();
+            $idEn = $infoSend['idenvoi'];
+            $idVo = $infoSend['idvoit'];
+            $colis = $infoSend['colis'];
+            $NomE = $infoSend['nomEnvoyeur'];
+            $Email = $infoSend['emailEnvoyeur'];
+            $date_En = $infoSend['date_envoi'];
+            $frais = $infoSend['frais'];
+            $NomR = $infoSend['nomRecepteur'];
+            $contR = $infoSend['contactRecepteur'];
+
+        }
+
+        else {
+            $ERROR = "L'identifiant n'existe pas!";
+        }
+
+        
+}
+$cli = $bdd->query('SELECT * FROM envoyer ');
